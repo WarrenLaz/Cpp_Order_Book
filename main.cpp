@@ -19,13 +19,13 @@ class OrderBook{
         unordered_map<string, Order> orders;
     protected:
         int* Market_(Order ord_){
-            return NULL;
+            return nullptr;
         }
         int* Limit_(Order ord_){
-            return NULL;
+            return nullptr;
         }
         int* Stop_(Order ord_){
-            return NULL;
+            return nullptr;
         }
     public: 
         OrderBook(){}
@@ -50,11 +50,11 @@ class OrderBook{
         }
 
         int* Sell(string name){
-            return NULL;
+            return nullptr;
         }
 
         int* Buy(string name){
-            return NULL;
+            return nullptr;
         }
 
 
