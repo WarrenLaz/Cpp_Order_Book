@@ -40,6 +40,10 @@ class OrderBook{
 
         }
 
+        bool AddOrder_s(Order* order_, string* name){
+            return true;
+        }
+
         string Status(string name){
             if(orders.find(name) != orders.end()){
                 string order;
