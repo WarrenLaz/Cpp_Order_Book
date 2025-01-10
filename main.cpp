@@ -47,8 +47,10 @@ class OrderBook{
         string Status(string name){
             if(orders.find(name) != orders.end()){
                 string order;
+                string type;
                 switch(orders[name].ordertype){case MARKET: order="MARKET";break;case LIMIT: order="LIMIT";break;case STOP: order="STOP";}
-                return name+" ["+order+" "+to_string(orders[name].status) + " "+to_string(orders[name].price)+" "+to_string(orders[name].volume) + "]";
+                type = orders[name].type == SELL ? "SELL" : "BUY";
+                return name+" ["+type+" "+order+" "+to_string(orders[name].status) + " "+to_string(orders[name].price)+" "+to_string(orders[name].volume) + "]";
             }
             return "Order Not Found";
         }
