@@ -40,7 +40,10 @@ class OrderBook{
 
         }
 
-        bool AddOrder_s(Order* order_, string* name){
+        bool AddOrder_s(Order* order_, string* name, int size){
+            for(int i = 0; i < size; i++){
+                AddOrder(order_[i], name[i]);
+            }
             return true;
         }
 
@@ -56,6 +59,7 @@ class OrderBook{
         }
 
         int* Sell(string name){
+            
             return nullptr;
         }
 
