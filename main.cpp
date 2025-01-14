@@ -6,6 +6,7 @@ enum OrderType {MARKET, LIMIT, STOP};
 enum Type{SELL, BUY};
 
 struct Order{
+    string name;
     Type type;
     OrderType ordertype;
     uint volume;
@@ -18,6 +19,7 @@ class OrderBook{
     private:
         unordered_map<string, Order> orders_Asks;
         unordered_map<string, Order> orders_Bids;
+        int id;
     protected:
         int* Market_(Order ord_){
             return nullptr;
@@ -29,7 +31,7 @@ class OrderBook{
             return nullptr;
         }
     public: 
-        OrderBook(){}
+        OrderBook(int start): id(start){}
 
         bool AddOrder(Order order_, string name){
             try{
@@ -66,10 +68,6 @@ class OrderBook{
         }
 
         string printBook(){
-            string book = "ASKS\tBIDS\n"
-            for(const auto& pair : orders) {
-                book += 
-            }
         }
         int* Sell(string name){
             
@@ -85,8 +83,8 @@ class OrderBook{
 
 
 int main(){
-    OrderBook orderbook;
-    Order myOrder = {BUY, MARKET, 10, 20.00, 0};
+    OrderBook orderbook(0);
+    Order myOrder = {"Warren", BUY, MARKET, 10, 20.00, 0};
     orderbook.AddOrder(myOrder, "Warren Lazarraga");
     
     cout << orderbook.Status("Warren Lazarraga");
