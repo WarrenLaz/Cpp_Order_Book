@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <unordered_map>
 using namespace std;
 
 enum OrderType {MARKET, LIMIT, STOP};
@@ -17,8 +18,10 @@ struct Order{
 
 class OrderBook{
     private:
-        unordered_map<string, Order> orders_Asks;
-        unordered_map<string, Order> orders_Bids;
+        std::unordered_map<int, Order> orders_Asks;
+        std::unordered_map<int, Order> orders_Bids;
+        std::unordered_map<Type, std::string> TypeToString;
+        std::unordered_map<OrderType, std::string> OrderTypeToString;
         int id;
     protected:
         int* Market_(Order ord_){
@@ -31,50 +34,56 @@ class OrderBook{
             return nullptr;
         }
     public: 
-        OrderBook(int start): id(start){}
+        OrderBook(int start)
+        : id(start),
+        TypeToString({ { SELL, "SELL" }, { BUY, "BUY" } }),
+        OrderTypeToString({{ MARKET, "MARKET" }, { LIMIT, "LIMIT" }, {STOP, "STOP"}}){}
 
-        bool AddOrder(Order order_, string name){
+        int AddOrder(Order order_){
             try{
                 if(order_.type == SELL){
-                    orders_Asks[name] = order_;
+                    orders_Asks[id] = order_;
                 }
                 if(order_.type == BUY){
-                    orders_Bids[name] = order_;
+                    orders_Bids[id] = order_;
                 }
             } catch (exception){
-                return false;
+                return -1;
             }
-            return true;
-
-        }
-
-        bool AddOrder_s(Order* order_, string* name, int size){
-            for(int i = 0; i < size; i++){
-                AddOrder(order_[i], name[i]);
-            }
-            return true;
-        }
-
-        string Status(string name){
-            if(orders_Asks.find(name) != orders_Asks.end() || orders_Bids.find(name) != orders_Bids.end()){
-                Order orders = orders_Bids.find(name) != orders_Asks.end() ? orders_Asks[name] : orders_Bids[name];
-                string order;
-                string type;
-                switch(orders.ordertype){case MARKET: order="MARKET";break;case LIMIT: order="LIMIT";break;case STOP: order="STOP";}
-                type = orders.type == SELL ? "SELL" : "BUY";
-                return name+" ["+type+" "+order+" "+to_string(orders.status) + " "+to_string(orders.price)+" "+to_string(orders.volume) + "]";
-            }
-            return "Order Not Found";
-        }
-
-        string printBook(){
-        }
-        int* Sell(string name){
+            return id++;
             
+        }
+
+        bool AddOrder_s(Order* order_, int*id, int size){
+            for(int i = 0; i < size; i++){
+                AddOrder(order_[i]);
+            }
+            return true;
+        }
+
+        Order* Status(int id){
+            if(orders_Asks.find(id) != orders_Asks.end() || orders_Bids.find(id) != orders_Bids.end()){
+                Order orders = orders_Bids.find(id) != orders_Asks.end() ? orders_Asks[id] : orders_Bids[id];
+                std::string order;
+                std::string type;
+            }
+        }
+        std::string printBook(){
+        }
+
+        std::string OrdertoString(Order order_){
+            return 
+            order_.name + TypeToString[order_.type] + " " +
+            OrderTypeToString[order_.ordertype] + " " +
+            std::to_string(order_.volume) + " " +
+            std::to_string(order_.price) + " " +
+            std::to_string(order_.status);
+        }
+        int* Sell(int id){
             return nullptr;
         }
 
-        int* Buy(string name){
+        int* Buy(int id){
             return nullptr;
         }
 
@@ -85,8 +94,6 @@ class OrderBook{
 int main(){
     OrderBook orderbook(0);
     Order myOrder = {"Warren", BUY, MARKET, 10, 20.00, 0};
-    orderbook.AddOrder(myOrder, "Warren Lazarraga");
-    
-    cout << orderbook.Status("Warren Lazarraga");
+    cout << orderbook.OrdertoString(myOrder);
     return 0;
 }
