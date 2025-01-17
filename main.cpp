@@ -94,6 +94,6 @@ class OrderBook{
 int main(){
     OrderBook orderbook(0);
     Order myOrder = {"Warren", BUY, MARKET, 10, 20.00, 0};
-    cout << orderbook.OrdertoString(myOrder);
+    cout << orderbook.OrdertoString(myOrder)<< std::newline;
     return 0;
 }
