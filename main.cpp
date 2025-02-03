@@ -86,8 +86,6 @@ class OrderBook{
         int* Buy(int id){
             return nullptr;
         }
-
-
 };
 
 
